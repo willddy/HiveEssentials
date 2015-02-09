@@ -21,6 +21,8 @@ DESCRIBE FORMATTED employee.name;
 SET hive.stats.autogather=ture;
 
 --Create Index
+--Failed in Hive 1.0.0 for bugs.
+--FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.DDLTask. Table not found default__employee_id_idx_id_employee_id__
 CREATE INDEX idx_id_employee_id
 ON TABLE employee_id (employee_id)
 AS 'COMPACT'
@@ -39,8 +41,9 @@ ALTER INDEX idx_sex_employee_id ON employee_id REBUILD;
 DESC default__employee_id_idx_id_employee_id__;
 
 --Drop index
+DROP INDEX idx_id_employee_id ON employee_id;
 DROP INDEX idx_sex_employee_id ON employee_id;
- 
+
 --Data file optimization
 --File format
 SET hive.exec.compress.output=true; 

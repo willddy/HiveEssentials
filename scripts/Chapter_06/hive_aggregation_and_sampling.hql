@@ -8,9 +8,10 @@ SELECT count(*) AS row_cnt FROM employee;
 SELECT sex_age.sex, count(*) AS row_cnt FROM employee 
 GROUP BY sex_age.sex;
 
---The column age is not in the group by columns
-SELECT sex_age.age, sex_age.sex, count(*) AS row_cnt 
-FROM employee GROUP BY sex_age.sex;
+--The column age is not in the group by columns, 
+--FAILED: SemanticException [Error 10002]: Line 1:15 Invalid column reference 'age'
+--SELECT sex_age.age, sex_age.sex, count(*) AS row_cnt 
+--FROM employee GROUP BY sex_age.sex;
 
 --Find row count by sex and random age for each sex
 SELECT sex_age.sex,collect_set(sex_age.age)[0] AS random_age, 
@@ -32,8 +33,8 @@ sum(if(sex_age.sex = 'Female',sex_age.age,0))
 AS female_age_sum FROM employee;
 
 --Nested aggregate functions are not allowed
-SELECT avg(count(*)) AS row_cnt 
-FROM employee;                    
+--FAILED: SemanticException [Error 10128]: Line 1:11 Not yet supported place for UDAF 'count'
+--SELECT avg(count(*)) AS row_cnt FROM employee;                    
 
 --Aggregate functions can be also used with DISTINCT keyword to do aggregation on unique values.
 SELECT count(distinct sex_age.sex) AS sex_uni_cnt,
@@ -202,7 +203,11 @@ TABLESAMPLE(BUCKET 1 OUT OF 2 ON rand()) a;
 SELECT name FROM employee_id_buckets TABLESAMPLE(4 ROWS) a;
 
 --Sample by percentage of data size
+--Failed in Hive 1.0.0 for "FAILED: SemanticException 1:49 Percentage sampling is not supported in org.apache.hadoop.hive.ql.io.BucketizedHiveInputFormat."
+--Success in Hive 0.13.0 and 0.14.0
 SELECT name FROM employee_id_buckets TABLESAMPLE(10 PERCENT) a;
 
 --Sample by data size
+--Failed in Hive 1.0.0 for "FAILED: SemanticException 1:49 Total Length sampling is not supported in org.apache.hadoop.hive.ql.io.BucketizedHiveInputFormat. Error encountered near token '3M'"
+--Success in Hive 0.13.0 and 0.14.0
 SELECT name FROM employee_id_buckets TABLESAMPLE(3M) a;   
