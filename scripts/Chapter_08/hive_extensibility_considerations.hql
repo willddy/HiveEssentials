@@ -28,8 +28,7 @@ ROW FORMAT SERDE
 STORED AS RCFile AS
 SELECT name from employee;
 
---RegexSerDe-Parse ; seperate fields
---Failed in Hive 1.0.0 for bugs.
+--RegexSerDe-Parse , seperate fields
 CREATE TABLE test_serde_rex(
 name string,
 sex string,
@@ -38,7 +37,7 @@ age string
 ROW FORMAT SERDE
 'org.apache.hadoop.hive.contrib.serde2.RegexSerDe'
 WITH SERDEPROPERTIES(
-'input.regex' = '([^;]*);([^;]*);([^;]*)',
+'input.regex' = '([^,]*),([^,]*),([^,]*)',
 'output.format.string' = '%1$s %2$s %3$s'
 )
 STORED AS TEXTFILE;

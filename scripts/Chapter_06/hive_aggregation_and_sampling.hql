@@ -203,11 +203,7 @@ TABLESAMPLE(BUCKET 1 OUT OF 2 ON rand()) a;
 SELECT name FROM employee_id_buckets TABLESAMPLE(4 ROWS) a;
 
 --Sample by percentage of data size
---Failed in Hive 1.0.0 for "FAILED: SemanticException 1:49 Percentage sampling is not supported in org.apache.hadoop.hive.ql.io.BucketizedHiveInputFormat."
---Success in Hive 0.13.0 and 0.14.0
 SELECT name FROM employee_id_buckets TABLESAMPLE(10 PERCENT) a;
 
 --Sample by data size
---Failed in Hive 1.0.0 for "FAILED: SemanticException 1:49 Total Length sampling is not supported in org.apache.hadoop.hive.ql.io.BucketizedHiveInputFormat. Error encountered near token '3M'"
---Success in Hive 0.13.0 and 0.14.0
 SELECT name FROM employee_id_buckets TABLESAMPLE(3M) a;   
