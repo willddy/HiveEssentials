@@ -8,3 +8,4 @@ Found couple of bugs as follows
 * [HIVE-9626](https://issues.apache.org/jira/browse/HIVE-9626)
 * [HIVE-9638](https://issues.apache.org/jira/browse/HIVE-9638)
 * [HIVE-9639](https://issues.apache.org/jira/browse/HIVE-9639)
+* [HIVE-9656](https://issues.apache.org/jira/browse/HIVE-9656)
